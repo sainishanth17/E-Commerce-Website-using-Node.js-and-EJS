@@ -1,0 +1,110 @@
+<%- include ("../layouts/adminheader"); -%>
+  <h2 class="page-title">Edit product</h2>
+  <a href="/admin/products" class="btn btn-primary">Back to all products</a>
+  <br><br>
+
+  <form action="/admin/products/edit-product/<%= id %>" method="post" enctype="multipart/form-data">
+  <div class="form-group">
+    <label for="">Title</label>
+    <input type="text" class="form-control" name="title" placeholder='Title' value=<%= title %>>
+  </div>
+  <div class="form-group">
+    <label for="">Description</label>
+    <textarea name="desc" id="ta" cols="30" rows="10" class="form-control" placeholder="Description"><%= desc %></textarea>
+  </div>
+  <div class="form-group">
+    <label for="">Category</label>
+    <select name="category" class="form-control">
+      <% categories.forEach(function(cat) { %>
+        <option value="<%= cat.slug %>"
+        <%  if(cat.slug == category) { %>
+            selected = "selected"
+        <%  } %>
+        ><%= cat.title %></option>
+        
+      <% }); %>
+    </select>
+
+  </div>
+  <div class="form-group">
+    <label for="">Price</label>
+    <input type="text" class="form-control" name="price" placeholder="Price" value=<%= price %>>
+  </div>
+
+  <div class="form-group">
+    <label for="">Current Image</label>
+    <p>
+     <% if(image == "") { %>
+        <img id="noimage" src="/images/noimage.jpg" alt="">
+     <% } else { %>
+        <img id="noimage" src="/product_images/<%= id %>_<%= image %>" alt="">
+     <% } %>
+    </p>
+  </div>
+
+  <div class="form-group">
+    <label for="">Upload Image</label>
+    <input type="file" class="form-control" name="image" id="img">
+    <img src="#" id="imgPreview" alt="">
+  </div>
+
+  <input type="hidden" name="pimage" value="<%= id %>_<%= image %>">
+
+  <input type="submit" class="btn btn-info" value="Submit">
+  </form>
+
+  <hr>
+  <h3 class="page-header">Gallery</h3>
+  <ul class="gallery">
+    <% galleryImages.forEach(function(image) { %>
+      <li>
+        <img src="/product_gallery/<%= id %>/<%= image %>" alt="" height="100">&nbsp; 
+        <a class="confirmDeletion" href="/admin/products/delete-image/<%= image %>?id=<%= id %>">Delete</a>
+      </li>
+    <% }); %>
+
+  </ul>
+
+  <br><br>
+  <form action="/admin/products/product-gallery/<%= id %>" method="post" enctype="multipart/form-data" class="dropzone" id="dropzoneForm">
+    <div class="fallback">
+      <input type="file" name="file" multiple>
+      <input type="submit" value="Upload">
+    </div>
+  </form>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/basic.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.js"></script>
+  <script>
+
+    //preview image
+    function readURL(input) {
+      if(input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+          $("#imgPreview").attr("src", e.target.result).width(100).height(100);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    $("#img").change(function(){
+      readURL(this);
+    });
+
+    //dropzone 
+    Dropzone.options.dropzoneForm = {
+      acceptedFiles: "image/*",
+      init: function() {
+        this.on("queuecomplete", function(file){
+          setTimeout(function(){
+            location.reload();
+          }, 1000);
+        });
+      }
+    }
+  </script>
+<%- include ("../layouts/adminfooter"); -%>

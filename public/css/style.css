@@ -1,0 +1,37 @@
+img.pimage {
+    width: 150px;
+}
+
+a.pa {
+    display: inline-block;
+    height: 160px;
+}
+
+.row.products .p {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.spi {
+    width: 100%;
+}
+
+ul.gallery li {
+    margin: 20px;
+    display: inline-block;
+    list-style: none;
+}
+
+img.cpi {
+    width: 100px;
+}
+
+table.alignmiddle td{
+    vertical-align: middle !important;
+}
+
+.alert-error {
+    background-color: #f2dede;
+    color: #e5444e;
+    border-color: #ebccd1;
+}

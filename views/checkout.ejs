@@ -1,0 +1,55 @@
+<%- include ("layouts/header"); -%>
+ <% if(typeof cart !== "undefined") { %>
+  <h1 class="page-title">My Cart</h1><br><br>
+    <table class="table table-striped alignmiddle">
+      <tr>
+        <th>Image</th>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th></th>
+        <th>Subtotal</th>
+      </tr>
+      <% var total=0; %>
+      <% cart.forEach(function(product){ %>
+        <% var sub = parseFloat(product.qty * product.price).toFixed(2); %>
+        <% total += +sub; %>
+        <tr>
+          <td><img class="cpi" src="<%= product.image %>" alt=""></td>
+          <td><%= product.title %></td>
+          <td>₹<%= product.price %></td>
+          <td><%= product.qty %></td>
+          <td>
+            <a href="/cart/updates/<%= product.title %>?action=add">+</a>&nbsp;
+            <a href="/cart/updates/<%= product.title %>?action=remove">-</a>&nbsp;
+            <a href="/cart/updates/<%= product.title %>?action=clear">Clear</a>&nbsp;
+          </td>
+          <td>₹<%= sub %></td>
+        </tr>
+     <% }); %>
+     <tr>
+       <td colspan="6" align="right"><b>Total: </b>₹<%= parseFloat(total).toFixed(2) %></td>
+     </tr>
+     <tr>
+       <td colspan="5" align="right">
+         <a class="clearcart btn btn-danger" href="/cart/clear">Clear cart</a>
+       </td>
+       <td colspan="6">
+        <a class="btn btn-primary buynow" href="/cart/payment?amount=<%= total %>">Buy now</a>
+      </td>
+     </tr>
+    </table>
+
+    
+ <% } else { %>
+    <h3 class="text-center">Your cart is empty.</h3>
+ <% } %>
+ <script>
+   $(function(){
+      $('a.clearcart').on('click', function() {
+        if(!confirm('Confirm clear cart'))
+        return false;
+      });
+   });
+ </script>
+<%- include ("layouts/footer"); -%>

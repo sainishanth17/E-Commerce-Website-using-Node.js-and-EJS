@@ -1,0 +1,29 @@
+<%- include ("layouts/header"); -%>
+<h1 class="page-header"><%= p.title %></h1>
+  <div class="row">
+    <div class="col-xs-12 col-md-5">
+      <img class="spi" src="/product_images/<%= p._id %>_<%= p.image %>" alt="">
+      <br>
+    </div>
+    <div class="col-xs-12 col-md-7">
+      <p><%- p.desc -%></p>
+      <p>₹<%= parseFloat(p.price).toFixed(2) %></p>
+    <% if(loggedIn){ %>
+      <p><a href="/cart/add/<%= p.slug %>">Add to cart</a></p>
+     <% } else { %>
+         <p>You must be logged in to purchase items</p>
+     <% } %>
+    </div>
+    <div class="col-xs-12">
+      <ul class="gallery">
+        <% galleryImages.forEach(function(image){ %>
+          <li>
+            <a data-fancybox="gallery" href="/product_gallery/<%= p._id %>/<%= image %>">
+              <img src="/product_thumbs/<%= p._id %>/<%= image %>" alt="">
+            </a>
+          </li>
+        <% }); %>
+      </ul>
+    </div>
+  </div>
+<%- include ("layouts/footer"); -%>
